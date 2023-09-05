@@ -1,16 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import ErrorInput from "../components/ErrorInput";
-
-const signinSchema = z.object({
-  email: z.string().nonempty("E-mail obrigatório").email(),
-  password: z.string().nonempty("Senha obrigatória").min(6, "A senha precisa ter no mínimo 6 caracteres")
-});
+import { signinSchema } from "../schemas/SigninSchema";
+import { signin } from "../services/user";
+import Cookies from "js-cookie";
 
 export default function Signin() {
   const {
@@ -19,8 +16,16 @@ export default function Signin() {
     formState: { errors }
   } = useForm({ resolver: zodResolver(signinSchema) });
 
-  function handleSubmitForm(data) {
-    console.log(data);
+  const navigate = useNavigate();
+
+  async function handleSubmitForm(data) {
+    try {
+      const token = await signin(data);
+      Cookies.set("token", token.data, { expires: 1 });
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   return (

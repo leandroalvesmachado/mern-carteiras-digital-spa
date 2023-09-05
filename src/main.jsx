@@ -7,8 +7,13 @@ import {
 } from "react-router-dom";
 import Signin from './pages/Signin.jsx';
 import Signup from './pages/Signup.jsx';
+import Home from './pages/Home.jsx';
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
   {
     path: "/signin",
     element: <Signin />,
