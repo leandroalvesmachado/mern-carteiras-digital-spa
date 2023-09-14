@@ -8,11 +8,14 @@ import {
 import Signin from './pages/Signin.jsx';
 import Signup from './pages/Signup.jsx';
 import Home from './pages/Home.jsx';
+import NewTransaction from './pages/NewTransaction';
+import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    errorElement: <ErrorPage />
   },
   {
     path: "/signin",
@@ -21,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/transaction/:type",
+    element: <NewTransaction />,
   },
 ]);
 
